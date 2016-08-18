@@ -109,6 +109,11 @@ class Bot extends EventEmitter {
           this._handleEvent('postback', event)
         }
 
+        // handle read
+        if (event.read) {
+          this._handleEvent('read', event)
+        }
+
         // handle message delivered
         if (event.delivery) {
           this._handleEvent('delivery', event)
