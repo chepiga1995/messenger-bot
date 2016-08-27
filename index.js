@@ -4,6 +4,7 @@ const qs = require('querystring')
 const EventEmitter = require('events').EventEmitter
 const request = require('request')
 const crypto = require('crypto')
+const default_fields ='first_name,last_name,profile_pic,locale,timezone,gender'
 
 class Bot extends EventEmitter {
   constructor (opts) {
@@ -14,6 +15,7 @@ class Bot extends EventEmitter {
       throw new Error('Missing page token. See FB documentation for details: https://developers.facebook.com/docs/messenger-platform/quickstart')
     }
     this.token = opts.token
+    this.fields = opts.fields || default_fields
     this.app_secret = opts.app_secret || false
     this.verify_token = opts.verify || false
   }
@@ -25,7 +27,7 @@ class Bot extends EventEmitter {
       method: 'GET',
       uri: `https://graph.facebook.com/v2.6/${id}`,
       qs: {
-        fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
+        fields: this.fields,
         access_token: this.token
       },
       json: true
